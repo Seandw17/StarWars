@@ -22,7 +22,8 @@ class AStarCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* BoxCollision;
 
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		class USphereComponent* LockOnCollision;
 
 public:
 	AStarCharacter();
@@ -128,7 +129,8 @@ protected:
 
 	void SetMontage(class UAnimMontage*, float Time);
 
-	
+//-----------Player Lock On Function-------------------
+	void LockOnEvent();
 
 //------------Player Movement Functions----------------
 	void SetPlayerSpeed(float Speed);

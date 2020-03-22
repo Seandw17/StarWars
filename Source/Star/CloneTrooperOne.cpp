@@ -71,7 +71,17 @@ void ACloneTrooperOne::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 }
 
 
+void ACloneTrooperOne::DistanceToPlayer()
+{
+	AStarCharacter* Player = Cast<AStarCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
 
+	FHitResult OutHit;
+
+	GetWorld()->LineTraceSingleByObjectType(OutHit, GetActorLocation(), Player->GetActorLocation(), FCollisionObjectQueryParams(ECC_Pawn), FCollisionQueryParams(TEXT("IKTrace"), false, this));
+
+	playerdistancetoenemy = OutHit.Distance;
+	bcanbeTargeted = true;
+}
 
 
 float ACloneTrooperOne::GetHealth()
@@ -120,6 +130,11 @@ void ACloneTrooperOne::OnFire()
 		World->SpawnActor<ABolt>(BoltClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 		
 		
+	}
+
+	if (BlasterSound != NULL)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, BlasterSound, GetActorLocation());
 	}
 	
 }

@@ -37,9 +37,19 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<class ABolt> BoltClass;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class USoundBase* BlasterSound;
+
 	UFUNCTION(BlueprintCallable)
 		void OnFire();
 
+	UFUNCTION(BlueprintCallable)
+	void DistanceToPlayer();
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		float playerdistancetoenemy;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+		bool bcanbeTargeted;
 	
 //---------------EnemyAnimations-----------------
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -55,10 +65,7 @@ public:
 
 	void Death();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		int playerdistancetoenemy;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		bool bcanbeTargeted;
+
 	
 private:
 	float health;

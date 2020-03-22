@@ -8,6 +8,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "Components/BoxComponent.h"
+#include "Components/SphereComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
@@ -61,6 +62,12 @@ AStarCharacter::AStarCharacter()
 	BoxCollision->SetupAttachment(RootComponent);
 	BoxCollision->InitBoxExtent(FVector(1, 1, 1));
 
+	// Create a sphere component - for lock on
+	LockOnCollision = CreateDefaultSubobject<USphereComponent>(TEXT("LockOnCollision"));
+	LockOnCollision->SetupAttachment(RootComponent);
+	LockOnCollision->InitSphereRadius(600.0f);
+
+
 
 	//-----------------Player Variables--------------------------------------------
 	
@@ -76,7 +83,6 @@ AStarCharacter::AStarCharacter()
 	forcepercentage = 1.0f; // Set the percentage value to 1 so that it is full
 	previousforce = forcepercentage; // Set the previousforce to the forcepercentage
 }
-
 
 
 //-----------------------Tick-------------------------------------------------
@@ -199,6 +205,8 @@ void AStarCharacter::SetMontage(class UAnimMontage* Montage, float Time)
 		}
 	}
 }
+
+
 
 float AStarCharacter::GetHealth()
 {
@@ -407,3 +415,6 @@ void AStarCharacter::ForcePull()
 		SetMontage(ForcePowersMontage, 1.0f);
 	}
 }
+
+
+
