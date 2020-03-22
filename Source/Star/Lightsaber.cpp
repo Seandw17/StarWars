@@ -97,9 +97,7 @@ void ALightsaber::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, clas
 
 					if (OtherActor == Bolt)
 					{	
-						
-						//Bolt->GetProjectileMovement()->SetVelocityInLocalSpace(Bolt->GetProjectileMovement()->Velocity / 1.0f);
-						Bolt->ReturnToEnemy();
+						Bolt->ReturnToEnemy(Bolt->GetActorLocation(), Bolt->GetActorRotation());
 						//Bolt->Destroy();
 						Player->Deflect();
 					}

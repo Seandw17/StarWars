@@ -47,9 +47,10 @@ void ABolt::Tick(float DeltaTime)
 
 }
 
-void ABolt::ReturnToEnemy()
+void ABolt::ReturnToEnemy(FVector boltVector, FRotator boltRotator)
 {
-	ProjectileMovement->MoveInterpolationTarget(startinglocationVector, startingrotationRotator);
+	ProjectileMovement->MoveInterpolationTarget(boltVector, boltRotator); //Gets the location and rotation of the bolt
+	ProjectileMovement->Velocity = ProjectileMovement->Velocity * -1.0f; //Reverses the velocity to send the bolt back
 }
 
 void ABolt::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
