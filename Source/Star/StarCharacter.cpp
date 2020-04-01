@@ -13,7 +13,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "TimerManager.h"
+#include "StarGameMode.h"
 #include "Lightsaber.h"
 #include "SliceableObject.h"
 #include "TestPushObject.h"
@@ -201,12 +203,23 @@ void AStarCharacter::SetMontage(class UAnimMontage* Montage, float Time)
 		UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 		if (AnimInstance != NULL)
 		{
+			
 			AnimInstance->Montage_Play(Montage, Time);
 		}
 	}
 }
 
+void AStarCharacter::PauseGame()
+{
+	AStarGameMode* GM = Cast<AStarGameMode>(UGameplayStatics::GetGameMode(this));
+	GM->PauseGame();
+}
 
+void AStarCharacter::ResumeGame()
+{
+	AStarGameMode* GM = Cast<AStarGameMode>(UGameplayStatics::GetGameMode(this));
+	GM->ResumeGame();
+}
 
 float AStarCharacter::GetHealth()
 {
@@ -252,7 +265,39 @@ void AStarCharacter::StopSprint()
 
 void AStarCharacter::Roll()
 {
-	SetMontage(RollMontage, 1.0f);
+	APlayerController* PC = Cast<APlayerController>(UGameplayStatics::GetPlayerController(this, 0));
+	
+	
+	PC->GetInputAnalogStickState(EControllerAnalogStick::CAS_LeftStick, directionX, directionY);
+	if (isTargetLockedOn == false)
+	{
+		SetMontage(RollMontage, 1.0f);
+	}
+	
+	if (isTargetLockedOn == true)
+	{
+		if (directionX < 0)
+		{
+			SetMontage(LeftRollMontage, 1.0f);
+			
+			
+		}
+		if (directionX > 0)
+		{
+			SetMontage(RightRollMontage, 1.0f);
+		}
+		
+		if (directionY > 0)
+		{
+			SetMontage(RollMontage, 1.0f);
+		}
+		if (directionY < 0)
+		{
+			SetMontage(BackwardRoll, 1.0f);
+		}
+		
+	}
+	
 }
 
 void AStarCharacter::Block()
@@ -270,8 +315,13 @@ void AStarCharacter::Unblock()
 
 void AStarCharacter::Deflect()
 {
-	Unblock();
+	//Unblock();
 	SetMontage(DeflectMontage, 0.5f);
+}
+
+void AStarCharacter::BoltDamaged()
+{
+	SetMontage(BoltDamageMontage, 1.0f);
 }
 
 void AStarCharacter::ResetCombo()

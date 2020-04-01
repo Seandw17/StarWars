@@ -4,6 +4,7 @@
 #include "StarCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 AStarGameMode::AStarGameMode()
 {
@@ -28,9 +29,48 @@ void AStarGameMode::BeginPlay()
 			CurrentWidget->AddToViewport();
 		}
 	}
+	if (PauseWidgetClass != nullptr)
+	{
+		PauseWidget = CreateWidget<UUserWidget>(GetWorld(), PauseWidgetClass);
+	}
+	if (LightsaberWidgetClass != nullptr)
+	{
+		LightsaberWidget = CreateWidget<UUserWidget>(GetWorld(), LightsaberWidgetClass);
+	}
 }
 
 void AStarGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void AStarGameMode::SetHUD(class UUserWidget* CurrentHUD, class UUserWidget* TargetHUD)
+{
+	CurrentHUD->RemoveFromParent();
+	if (TargetHUD)
+	{
+		TargetHUD->AddToViewport();
+	}
+
+}
+
+void AStarGameMode::PauseGame()
+{
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
+}
+
+void AStarGameMode::ResumeGame()
+{
+	UGameplayStatics::SetGamePaused(GetWorld(), false);
+	SetHUD(PauseWidget, CurrentWidget);
+}
+
+void AStarGameMode::OpenLightsaberMenu()
+{
+	SetHUD(PauseWidget, LightsaberWidget);
+}
+
+void AStarGameMode::ReturnToPauseMenu()
+{
+	SetHUD(LightsaberWidget, PauseWidget);
 }

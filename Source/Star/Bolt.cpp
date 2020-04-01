@@ -70,6 +70,7 @@ void ABolt::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveCo
 	if (OtherActor == Player)
 	{
 		Player->UpdateHealth(10);
+		Player->BoltDamaged();
 		Destroy();
 	}
 	if (OtherActor == TrooperOne)
