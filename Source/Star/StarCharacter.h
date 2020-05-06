@@ -59,37 +59,17 @@ public:
 		class UAnimMontage* ComboAttack5;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UAnimMontage* RollMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UAnimMontage* BlockMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UAnimMontage* DeflectMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UAnimMontage* BoltDamageMontage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		class UAnimMontage* ForcePowersMontage;
 
-	//-----------Roll Animation Montages--------------------------
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UAnimMontage* RollMontage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UAnimMontage* LeftRollMontage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UAnimMontage* RightRollMontage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		class UAnimMontage* BackwardRoll;
-
-	
-
-
-	//--------------Roll------------------------
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		bool isRolling;
 	//--------------Combat-----------------------
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		bool isAttacking;
@@ -100,13 +80,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		bool saveAttack;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		bool isTargetLockedOn;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		int combocounter;
 
 	void Deflect();
-	void BoltDamaged();
+
 	//------------Combo---------------------------
 	//Reset Player Combo
 	UFUNCTION(BlueprintCallable)
@@ -128,12 +106,8 @@ public:
 
 	//------------Timer-------------------------------
 	FTimerHandle Timer;
-	//------------Pause/UnPause Game------------------
-	UFUNCTION(BlueprintCallable)
-	void PauseGame();
-
-	UFUNCTION(BlueprintCallable)
-		void ResumeGame();
+	
+	
 	
 private:
 	//------------Health------------------------------
@@ -148,15 +122,12 @@ private:
 	float forcepercentage;
 	float previousforce;
 
-	//-----------Roll/Movement-------------------------
-	float directionX;
-	float directionY;
+
+
 
 protected:
 
 	void SetMontage(class UAnimMontage*, float Time);
-
-	
 
 //-----------Player Lock On Function-------------------
 	void LockOnEvent();
